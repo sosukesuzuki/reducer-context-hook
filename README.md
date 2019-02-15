@@ -69,6 +69,6 @@ function Counter() {
 }
 ```
 
-### Licence
+## Licence
 
 MIT
