@@ -32,10 +32,24 @@ const initialState: State = {
   count: 0
 };
 
-const { StoreContextProvider, useDispatch, useMappedState } = create<
+export const { StoreContextProvider, useDispatch, useMappedState } = create<
   State,
   Action
 >(reducer, initialState);
+```
+
+### StoreContextProvider
+
+Please wrap your App with `StoreContextProvider`.
+
+```tsx
+function App() {
+  return (
+    <StoreContextProvider>
+      <App />
+    </StoreContextProvider>
+  );
+}
 ```
 
 ### useDispatch
