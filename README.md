@@ -1,6 +1,7 @@
 # Reducer Context Hook
 
 A function that provides hooks to manage state with useReducer and useContext.
+(**This package is not published to npm yet**)
 
 ## Usage
 
