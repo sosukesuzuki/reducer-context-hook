@@ -33,9 +33,9 @@ export default function create<State = any, Action = any>(
   }: {
     children: React.ReactElement;
   }) {
-    const [, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(reducer, initialState);
     return (
-      <StoreContext.Provider value={{ state: initialState, dispatch }}>
+      <StoreContext.Provider value={{ state, dispatch }}>
         {children}
       </StoreContext.Provider>
     );
