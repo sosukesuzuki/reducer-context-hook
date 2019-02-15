@@ -1,6 +1,7 @@
 # Reducer Context Hook
 
 A function that provides hooks to manage state with useReducer and useContext.
+
 (**This package is not published to npm yet**)
 
 ## Usage
@@ -16,6 +17,17 @@ type State = { count: number };
 
 type Action = { type: "reset" | "increment" | "decrement" };
 
+export const { StoreContextProvider, useDispatch, useMappedState } = create<
+  State,
+  Action
+>();
+```
+
+### StoreContextProvider
+
+Please wrap your App with `StoreContextProvider` and pass reducer and initial state as props.
+
+```tsx
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "increment":
@@ -33,20 +45,9 @@ const initialState: State = {
   count: 0
 };
 
-export const { StoreContextProvider, useDispatch, useMappedState } = create<
-  State,
-  Action
->(reducer, initialState);
-```
-
-### StoreContextProvider
-
-Please wrap your App with `StoreContextProvider`.
-
-```tsx
 function App() {
   return (
-    <StoreContextProvider>
+    <StoreContextProvider reducer={reducer} initialState={initialState}>
       <App />
     </StoreContextProvider>
   );

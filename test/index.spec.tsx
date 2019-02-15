@@ -8,7 +8,7 @@ type State = { count: number };
 const reducer = (state: State, { type }: Action): State =>
   type === "inc" ? { count: state.count + 1 } : { ...state };
 
-const { StoreContextProvider, useMappedState } = create(reducer, { count: 0 });
+const { StoreContextProvider, useMappedState } = create<State, Action>();
 
 describe("reducer-context-hook", () => {
   let reactRoot: HTMLDivElement;
@@ -24,7 +24,9 @@ describe("reducer-context-hook", () => {
   function render(element: React.ReactElement<any>) {
     act(() => {
       ReactDOM.render(
-        <StoreContextProvider>{element}</StoreContextProvider>,
+        <StoreContextProvider reducer={reducer} initialState={{ count: 0 }}>
+          {element}
+        </StoreContextProvider>,
         reactRoot
       );
     });

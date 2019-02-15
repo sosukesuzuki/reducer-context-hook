@@ -1,9 +1,6 @@
 import * as React from "react";
 
-export default function create<State = any, Action = any>(
-  reducer: React.Reducer<State, Action>,
-  initialState: State
-) {
+export default function create<State = any, Action = any>() {
   const StoreContext = React.createContext<{
     state: State;
     dispatch: React.Dispatch<Action>;
@@ -24,8 +21,12 @@ export default function create<State = any, Action = any>(
   }
 
   function StoreContextProvider({
+    reducer,
+    initialState,
     children
   }: {
+    reducer: React.Reducer<State, Action>;
+    initialState: State;
     children: React.ReactElement;
   }) {
     const [state, dispatch] = React.useReducer(reducer, initialState);

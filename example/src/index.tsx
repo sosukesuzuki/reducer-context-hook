@@ -23,14 +23,14 @@ const initialState: State = {
   count: 0
 };
 
-const { StoreContextProvider, useMappedState, useDispatch } = create(
-  reducer,
-  initialState
-);
+const { StoreContextProvider, useMappedState, useDispatch } = create<
+  State,
+  Action
+>();
 
 function App() {
   return (
-    <StoreContextProvider>
+    <StoreContextProvider reducer={reducer} initialState={initialState}>
       <Counter />
     </StoreContextProvider>
   );
