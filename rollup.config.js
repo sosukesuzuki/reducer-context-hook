@@ -1,4 +1,4 @@
-import typescript from "rollup-plugin-typescript";
+import typescript from "rollup-plugin-typescript2";
 import resolve from "rollup-plugin-node-resolve";
 import url from "rollup-plugin-url";
 import copy from "rollup-plugin-cpy";
@@ -13,25 +13,29 @@ export default {
       file: pkg.main,
       format: "cjs",
       exports: "named",
-      sourcemap: true,
+      sourcemap: true
     },
     {
       file: pkg.module,
       format: "es",
       exports: "named",
-      sourcemap: true,
-    },
+      sourcemap: true
+    }
   ],
   plugins: [
-    typescript(),
+    typescript({
+      clean: true,
+      rollupCommonJSResolveHack: true,
+      exclude: ["*.d.ts", "**/*.d.ts"]
+    }),
     resolve(),
     url(),
     external(),
     copy([
       {
         files: ["src/index.tsx"],
-        dest: 'example/src/reducer-context-hook'
+        dest: "example/src/reducer-context-hook"
       }
     ])
   ]
-}
+};
