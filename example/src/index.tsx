@@ -6,15 +6,15 @@ interface State {
   count: number;
 }
 
-type Action = { type: 'reset' } | { type: 'increment' } | { type: 'decrement' };
+type Action = { type: "reset" } | { type: "increment" } | { type: "decrement" };
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
-    case 'increment':
+    case "increment":
       return { count: state.count + 1 };
-    case 'decrement':
+    case "decrement":
       return { count: state.count - 1 };
-    case 'reset':
+    case "reset":
       return { count: 0 };
     default:
       throw new Error();
@@ -25,24 +25,36 @@ const initialState: State = {
   count: 0
 };
 
-const { StoreContextProvider, useMappedState, useDispatch } = create(reducer, initialState);
+const { StoreContextProvider, useMappedState, useDispatch } = create(
+  reducer,
+  initialState
+);
 
 function App() {
   return (
     <StoreContextProvider>
       <Counter />
     </StoreContextProvider>
-  )
+  );
 }
 
 function Counter() {
-  const { count } = useMappedState(state => ({
-    count: state.count
-  }), []);
+  const { count } = useMappedState(
+    state => ({
+      count: state.count
+    }),
+    []
+  );
   const dispatch = useDispatch();
-  const increment = React.useCallback(() => dispatch({type: "increment"}), []);
-  const decrement = React.useCallback(() => dispatch({type: "decrement"}), []);
-  const reset = React.useCallback(() => dispatch({type: "reset"}), []);
+  const increment = React.useCallback(
+    () => dispatch({ type: "increment" }),
+    []
+  );
+  const decrement = React.useCallback(
+    () => dispatch({ type: "decrement" }),
+    []
+  );
+  const reset = React.useCallback(() => dispatch({ type: "reset" }), []);
   return (
     <>
       <p>{count}</p>
@@ -50,7 +62,7 @@ function Counter() {
       <button onClick={decrement}>decrement</button>
       <button onClick={reset}>reset</button>
     </>
-  )
+  );
 }
 
 ReactDOM.render(<App />, document.querySelector("#root"));

@@ -1,4 +1,9 @@
-import React, { useReducer, createContext, useContext, useCallback } from "react";
+import React, {
+  useReducer,
+  createContext,
+  useContext,
+  useCallback
+} from "react";
 
 export default function create<State = any, Action = any>(
   reducer: React.Reducer<State, Action>,
@@ -7,7 +12,7 @@ export default function create<State = any, Action = any>(
   const StoreContext = createContext<{
     state: State;
     dispatch: React.Dispatch<Action>;
-  }>({ state: (null as any), dispatch: (null as any) });
+  }>({ state: null as any, dispatch: null as any });
 
   function useMappedState<Result>(
     mapState: (state: State) => Result,
@@ -23,13 +28,17 @@ export default function create<State = any, Action = any>(
     return dispatch;
   }
 
-  function StoreContextProvider({ children }: { children: React.ReactElement}) {
+  function StoreContextProvider({
+    children
+  }: {
+    children: React.ReactElement;
+  }) {
     const [, dispatch] = useReducer(reducer, initialState);
     return (
-      <StoreContext.Provider value={{state: initialState, dispatch}}>
+      <StoreContext.Provider value={{ state: initialState, dispatch }}>
         {children}
       </StoreContext.Provider>
-    )
+    );
   }
 
   return {
