@@ -1,5 +1,7 @@
 # Reducer Context Hook
 
+[![CircleCI](https://circleci.com/gh/sosukesuzuki/reducer-context-hook/tree/master.svg?style=svg)](https://circleci.com/gh/sosukesuzuki/reducer-context-hook/tree/master)
+
 A function that provides hooks to manage state with useReducer and useContext.
 
 (**This package is not published to npm yet**)
