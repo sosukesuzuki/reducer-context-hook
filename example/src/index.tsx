@@ -2,11 +2,9 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import create from "./reducer-context-hook";
 
-interface State {
-  count: number;
-}
+type State = { count: number };
 
-type Action = { type: "reset" } | { type: "increment" } | { type: "decrement" };
+type Action = { type: "reset" | "increment" | "decrement" };
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
