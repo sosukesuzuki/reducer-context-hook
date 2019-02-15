@@ -1,6 +1,6 @@
 /**/node_modules
 /**/dist
 /**/.cache
-/example/reducer-context-hook
+/example/src/reducer-context-hook
 /**/yarn-error.log
 .DS_Store
