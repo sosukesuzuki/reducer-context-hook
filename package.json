@@ -17,6 +17,7 @@
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "rollup-plugin-typescript": "^1.0.0",
     "rollup-plugin-url": "^2.2.0",
+    "rollup-plugin-cpy": "^1.1.0",
     "tslib": "^1.9.3",
     "typescript": "^3.3.3"
   },

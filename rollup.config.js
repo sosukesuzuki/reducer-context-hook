@@ -1,12 +1,13 @@
 import typescript from "rollup-plugin-typescript";
 import resolve from "rollup-plugin-node-resolve";
 import url from "rollup-plugin-url";
+import copy from "rollup-plugin-cpy";
 import external from "rollup-plugin-peer-deps-external";
 
 import pkg from "./package.json";
 
 export default {
-  input: "src/index.ts",
+  input: "src/index.tsx ",
   output: [
     {
       file: pkg.main,
@@ -25,6 +26,12 @@ export default {
     typescript(),
     resolve(),
     url(),
-    external()
+    external(),
+    copy([
+      {
+        files: ["src/index.tsx"],
+        dest: 'example/src/reducer-context-hook'
+      }
+    ])
   ]
 }
