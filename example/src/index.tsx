@@ -41,10 +41,14 @@ function Counter() {
   }), []);
   const dispatch = useDispatch();
   const increment = React.useCallback(() => dispatch({type: "increment"}), []);
+  const decrement = React.useCallback(() => dispatch({type: "decrement"}), []);
+  const reset = React.useCallback(() => dispatch({type: "reset"}), []);
   return (
     <>
       <p>{count}</p>
       <button onClick={increment}>increment</button>
+      <button onClick={decrement}>decrement</button>
+      <button onClick={reset}>reset</button>
     </>
   )
 }
