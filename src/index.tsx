@@ -2,10 +2,28 @@ import * as React from "react";
 
 let globalState: any = {};
 
-type Options = { logging: boolean };
+function combineMiddlewares<S, A>(
+  middlewares: Middleware<S, A>[],
+  state: S,
+  dispatch: React.Dispatch<A>,
+  action: A,
+  reducer: React.Reducer<S, A>
+): React.Dispatch<A> {
+  const [head, ...tail] = middlewares;
+  const newDispatch = head(state, dispatch, action, reducer);
+  if (tail.length === 0) return newDispatch;
+  return combineMiddlewares(tail, state, newDispatch, action, reducer);
+}
+
+type Middleware<S, A> = (
+  state: S,
+  dispatch: React.Dispatch<A>,
+  action: A,
+  reducer: React.Reducer<S, A>
+) => React.Dispatch<A>;
 
 export default function create<State = any, Action = any>(
-  options: Options = { logging: false }
+  middlewares?: Middleware<State, Action>[]
 ) {
   const StoreContext = React.createContext<{
     state: State;
@@ -35,19 +53,6 @@ export default function create<State = any, Action = any>(
     return result;
   }
 
-  function log(
-    dispatch: React.Dispatch<Action>,
-    action: Action,
-    reducer: React.Reducer<State, Action>
-  ): React.Dispatch<Action> {
-    const beforeState = globalState;
-    const afterState = reducer(globalState, action);
-    console.log("before state", beforeState);
-    console.log("action", action);
-    console.log("after state", afterState);
-    return dispatch;
-  }
-
   function StoreContextProvider({
     reducer,
     initialState,
@@ -61,7 +66,15 @@ export default function create<State = any, Action = any>(
 
     const enhancedDispatch: React.Dispatch<Action> = function(value) {
       let finalDispatch: React.Dispatch<Action> = dispatch;
-      if (options.logging) finalDispatch = log(dispatch, value, reducer);
+      if (middlewares && middlewares.length !== 0) {
+        finalDispatch = combineMiddlewares(
+          middlewares,
+          globalState,
+          dispatch,
+          value,
+          reducer
+        );
+      }
       finalDispatch(value);
     };
 

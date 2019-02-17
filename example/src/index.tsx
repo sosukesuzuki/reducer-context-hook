@@ -19,6 +19,20 @@ function reducer(state: State, action: Action): State {
   }
 }
 
+function logger(
+  state: State,
+  dispatch: React.Dispatch<Action>,
+  action: Action,
+  reducer: React.Reducer<State, Action>
+): React.Dispatch<Action> {
+  const beforeState = state;
+  const afterState = reducer(state, action);
+  console.log("before state", beforeState);
+  console.log("action", action);
+  console.log("after state", afterState);
+  return dispatch;
+}
+
 const initialState: State = {
   count: 0
 };
@@ -26,7 +40,7 @@ const initialState: State = {
 const { StoreContextProvider, useMappedState, useDispatch } = create<
   State,
   Action
->({ logging: true });
+>([logger]);
 
 function App() {
   return (
