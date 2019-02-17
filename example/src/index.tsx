@@ -26,7 +26,7 @@ const initialState: State = {
 const { StoreContextProvider, useMappedState, useDispatch } = create<
   State,
   Action
->();
+>({ logging: true });
 
 function App() {
   return (

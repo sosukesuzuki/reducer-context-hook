@@ -1,6 +1,12 @@
 import * as React from "react";
 
-export default function create<State = any, Action = any>() {
+let globalState: any = {};
+
+type Options = { logging: boolean };
+
+export default function create<State = any, Action = any>(
+  options: Options = { logging: false }
+) {
   const StoreContext = React.createContext<{
     state: State;
     dispatch: React.Dispatch<Action>;
@@ -20,6 +26,28 @@ export default function create<State = any, Action = any>() {
     return dispatch;
   }
 
+  function useReducer(
+    reducer: React.Reducer<State, Action>,
+    initialState: State
+  ) {
+    const result = React.useReducer(reducer, initialState);
+    globalState = result[0];
+    return result;
+  }
+
+  function log(
+    dispatch: React.Dispatch<Action>,
+    action: Action,
+    reducer: React.Reducer<State, Action>
+  ): void {
+    const beforeState = globalState;
+    const afterState = reducer(globalState, action);
+    dispatch(action);
+    console.log("before state", beforeState);
+    console.log("action", action);
+    console.log("after state", afterState);
+  }
+
   function StoreContextProvider({
     reducer,
     initialState,
@@ -29,9 +57,14 @@ export default function create<State = any, Action = any>() {
     initialState: State;
     children: React.ReactElement;
   }) {
-    const [state, dispatch] = React.useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    const enhancedDispatch: React.Dispatch<Action> = function(value) {
+      options.logging ? log(dispatch, value, reducer) : dispatch(value);
+    };
+
     return (
-      <StoreContext.Provider value={{ state, dispatch }}>
+      <StoreContext.Provider value={{ state, dispatch: enhancedDispatch }}>
         {children}
       </StoreContext.Provider>
     );
