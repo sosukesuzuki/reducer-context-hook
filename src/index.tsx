@@ -39,13 +39,13 @@ export default function create<State = any, Action = any>(
     dispatch: React.Dispatch<Action>,
     action: Action,
     reducer: React.Reducer<State, Action>
-  ): void {
+  ): React.Dispatch<Action> {
     const beforeState = globalState;
     const afterState = reducer(globalState, action);
-    dispatch(action);
     console.log("before state", beforeState);
     console.log("action", action);
     console.log("after state", afterState);
+    return dispatch;
   }
 
   function StoreContextProvider({
@@ -60,7 +60,9 @@ export default function create<State = any, Action = any>(
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const enhancedDispatch: React.Dispatch<Action> = function(value) {
-      options.logging ? log(dispatch, value, reducer) : dispatch(value);
+      let finalDispatch: React.Dispatch<Action> = dispatch;
+      if (options.logging) finalDispatch = log(dispatch, value, reducer);
+      finalDispatch(value);
     };
 
     return (
