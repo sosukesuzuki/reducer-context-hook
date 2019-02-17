@@ -2,6 +2,13 @@ import * as React from "react";
 
 let globalState: any = {};
 
+type Middleware<S, A> = (
+  state: S,
+  dispatch: React.Dispatch<A>,
+  action: A,
+  reducer: React.Reducer<S, A>
+) => React.Dispatch<A>;
+
 function combineMiddlewares<S, A>(
   middlewares: Middleware<S, A>[],
   state: S,
@@ -14,13 +21,6 @@ function combineMiddlewares<S, A>(
   if (tail.length === 0) return newDispatch;
   return combineMiddlewares(tail, state, newDispatch, action, reducer);
 }
-
-type Middleware<S, A> = (
-  state: S,
-  dispatch: React.Dispatch<A>,
-  action: A,
-  reducer: React.Reducer<S, A>
-) => React.Dispatch<A>;
 
 export default function create<State = any, Action = any>(
   middlewares?: Middleware<State, Action>[]
@@ -44,7 +44,7 @@ export default function create<State = any, Action = any>(
     return dispatch;
   }
 
-  function useReducer(
+  function useReducerWithSaveState(
     reducer: React.Reducer<State, Action>,
     initialState: State
   ) {
@@ -62,7 +62,7 @@ export default function create<State = any, Action = any>(
     initialState: State;
     children: React.ReactElement;
   }) {
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducerWithSaveState(reducer, initialState);
 
     const enhancedDispatch: React.Dispatch<Action> = function(value) {
       let finalDispatch: React.Dispatch<Action> = dispatch;
