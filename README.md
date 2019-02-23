@@ -17,10 +17,12 @@ type State = { count: number };
 
 type Action = { type: "reset" | "increment" | "decrement" };
 
-export const { StoreContextProvider, useDispatch, useMappedState } = create<
-  State,
-  Action
->();
+export const {
+  StoreContextProvider,
+  useDispatch,
+  useMappedDispatch,
+  useMappedState
+} = create<State, Action>();
 ```
 
 ### StoreContextProvider
@@ -66,6 +68,24 @@ function Increment() {
     []
   );
   return <button onClick={increment}>+</button>;
+}
+```
+
+### useMappedDispatch
+
+Get actions from action creators.
+
+```tsx
+function Decrement() {
+  const { decrement } = useMappedDispatch(
+    {
+      decrement: () => {
+        type: "decrement";
+      }
+    },
+    []
+  );
+  return <button onClick={decrement}>-</button>;
 }
 ```
 

@@ -23,10 +23,12 @@ const initialState: State = {
   count: 0
 };
 
-const { StoreContextProvider, useMappedState, useDispatch } = create<
-  State,
-  Action
->();
+const {
+  StoreContextProvider,
+  useMappedState,
+  useDispatch,
+  useMappedDispatch
+} = create<State, Action>();
 
 function App() {
   return (
@@ -44,12 +46,11 @@ function Counter() {
     []
   );
   const dispatch = useDispatch();
-  const increment = React.useCallback(
-    () => dispatch({ type: "increment" }),
-    []
-  );
-  const decrement = React.useCallback(
-    () => dispatch({ type: "decrement" }),
+  const { increment, decrement } = useMappedDispatch(
+    {
+      increment: () => ({ type: "increment" }),
+      decrement: () => ({ type: "decrement" })
+    },
     []
   );
   const reset = React.useCallback(() => dispatch({ type: "reset" }), []);
