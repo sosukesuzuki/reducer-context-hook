@@ -69,6 +69,24 @@ function Increment() {
 }
 ```
 
+### useMappedDispatch
+
+Get actions from action creators.
+
+```tsx
+function Decrement() {
+  const { decrement } = useMappedDispatch(
+    {
+      decrement: () => {
+        type: "decrement";
+      }
+    },
+    []
+  );
+  return <button onClick={decrement}>-</button>;
+}
+```
+
 ### useMappedState
 
 Get state from the store with mapState function.
