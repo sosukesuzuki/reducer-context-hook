@@ -17,10 +17,12 @@ type State = { count: number };
 
 type Action = { type: "reset" | "increment" | "decrement" };
 
-export const { StoreContextProvider, useDispatch, useMappedState } = create<
-  State,
-  Action
->();
+export const {
+  StoreContextProvider,
+  useDispatch,
+  useMappedDispatch,
+  useMappedState
+} = create<State, Action>();
 ```
 
 ### StoreContextProvider
