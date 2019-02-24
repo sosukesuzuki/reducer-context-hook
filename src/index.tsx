@@ -69,3 +69,10 @@ export default function create<State = any, Action = any>() {
     useMappedDispatch
   };
 }
+
+export const {
+  StoreContextProvider,
+  useMappedState,
+  useDispatch,
+  useMappedDispatch
+} = create();
