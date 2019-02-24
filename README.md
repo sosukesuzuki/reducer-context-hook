@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/sosukesuzuki/reducer-context-hook/tree/master.svg?style=svg)](https://circleci.com/gh/sosukesuzuki/reducer-context-hook/tree/master)
 
-A function that provides hooks to manage state with useReducer and useContext.
+Hooks for state management like Redux without Redux. For more information [We can use Redux without Redux](https://dev.to/sosukesuzuki/we-can-use-redux-without-redux-45fb).
 
 ## Usage
 
